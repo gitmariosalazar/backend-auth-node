@@ -55,7 +55,7 @@ export const login = async (req, res) => {
             secure: true,
             sameSite: "none",
         });
-        res.json({error: null, user: user_token, message: 'Login successfully!'})
+        res.json({error: null, user: user_token, message: 'Login successfully!', token: token})
     } catch (error) {
         res.status(500).json({error: error, message: 'Login failed!', user: null})
     }
