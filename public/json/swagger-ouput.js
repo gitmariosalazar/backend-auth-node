@@ -32,7 +32,7 @@ const ouput = {
         },
         {
             "name": "tasks",
-            "description": "Everything about your Tsks",
+            "description": "Everything about your Task",
             "externalDocs": {
                 "description": "Find out more about our store",
                 "url": "http://swagger.io"

@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon src/index.js --ignore client",
     "start": "cross-env NODE_ENV=production node src/index.js",
-    "swagger-autogen": "node swagger.js"
+    "swagger-autogen": "node src/swagger.js"
   },
   "keywords": [
     "Backend",

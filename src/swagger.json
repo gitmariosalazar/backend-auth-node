@@ -32,7 +32,7 @@
     },
     {
       "name": "tasks",
-      "description": "Everything about your Tsks",
+      "description": "Everything about your Tasks",
       "externalDocs": {
         "description": "Find out more about our store",
         "url": "http://swagger.io"
