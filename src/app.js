@@ -6,7 +6,8 @@ import Tasks from './routes/tasks.routes.js';
 import {FRONTEND_URL} from './config.js';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from './swagger.json' assert {type: 'json'};
+import ouput from '../public/json/swagger-ouput.js';
+
 import path from 'path';
 
 const app = express();
@@ -48,7 +49,8 @@ app.get('/', async (req, res) => {
 });
 
 
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(ouput));
+
 
 if (process.env.NODE_ENV === 'production') {
     const path = await import('path');
