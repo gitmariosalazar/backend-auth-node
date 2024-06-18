@@ -44,7 +44,7 @@ app.get('/', async (req, res) => {
         res.render('index', {domain: domain});
     } catch (err) {
         console.error('Error al leer el archivo HTML:', err);
-        res.status(500).send('Error interno del servidor');
+        res.status(500).send('Error interno del servidor ');
     }
 });
 

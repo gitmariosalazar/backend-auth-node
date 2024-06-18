@@ -24,7 +24,7 @@ const ouput = {
     "tags": [
         {
             "name": "users",
-            "description": "Everything about your Users",
+            "description": "Everything about your Users 2",
             "externalDocs": {
                 "description": "Find out more",
                 "url": "http://swagger.io"
@@ -79,7 +79,7 @@ const ouput = {
                             "type": "object",
                             "properties": {
                                 "username": {
-                                    "example": "any"
+                                    "example": "example"
                                 },
                                 "email": {
                                     "example": "any"
@@ -112,13 +112,15 @@ const ouput = {
                         "name": "email",
                         "in": "path",
                         "required": true,
-                        "type": "string"
+                        "type": "string",
+                        "format": "email"
                     },
                     {
                         "name": "password",
                         "in": "path",
                         "required": true,
-                        "type": "string"
+                        "type": "string",
+                        "format": "password"
                     }
                 ],
                 "responses": {
