@@ -6,7 +6,7 @@ import Tasks from './routes/tasks.routes.js';
 import {FRONTEND_URL} from './config.js';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from './swagger-output.json' assert {type: 'json'};
+import swaggerDocument from './swagger.json' assert {type: 'json'};
 import path from 'path';
 
 const app = express();

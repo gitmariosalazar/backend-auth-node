@@ -5,7 +5,7 @@ import swaggerAutogen from 'swagger-autogen';
 
 const doc_swagger = doc
 
-const outputFile = './swagger-output.json';
+const outputFile = './swagger.json';
 //const endpointsFiles = ['./routes/auth.routes.js', './routes/tasks.routes.js'];
 const endpointsFiles = ['./app.js'];
 swaggerAutogen()(outputFile, endpointsFiles, doc_swagger).then(async () => {

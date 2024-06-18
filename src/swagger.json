@@ -58,11 +58,18 @@
     "application/json"
   ],
   "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/auth/register": {
       "post": {
-        "tags": [
-          "users"
-        ],
         "description": "",
         "parameters": [
           {
@@ -72,16 +79,13 @@
               "type": "object",
               "properties": {
                 "username": {
-                  "type": "string",
-                  "example": "mariosalazar.ms.10"
+                  "example": "any"
                 },
                 "email": {
-                  "type": "string",
-                  "example": "mariosalazar.ms.10e@gmail.com"
+                  "example": "any"
                 },
                 "password": {
-                  "type": "string",
-                  "format": "password"
+                  "example": "any"
                 }
               }
             }
@@ -102,9 +106,6 @@
     },
     "/api/auth/login/{email}/{password}": {
       "post": {
-        "tags": [
-          "users"
-        ],
         "description": "",
         "parameters": [
           {
@@ -117,8 +118,7 @@
             "name": "password",
             "in": "path",
             "required": true,
-            "type": "string",
-            "format": "password"
+            "type": "string"
           }
         ],
         "responses": {
@@ -136,9 +136,6 @@
     },
     "/api/auth/verify": {
       "post": {
-        "tags": [
-          "users"
-        ],
         "description": "",
         "responses": {
           "200": {
@@ -152,9 +149,6 @@
     },
     "/api/auth/logout": {
       "post": {
-        "tags": [
-          "users"
-        ],
         "description": "",
         "responses": {
           "200": {
@@ -171,9 +165,6 @@
     },
     "/api/auth/profile": {
       "get": {
-        "tags": [
-          "users"
-        ],
         "description": "",
         "responses": {
           "200": {
@@ -196,9 +187,6 @@
     },
     "/api/tasks": {
       "get": {
-        "tags": [
-          "tasks"
-        ],
         "description": "",
         "responses": {
           "200": {
@@ -216,9 +204,6 @@
         }
       },
       "post": {
-        "tags": [
-          "tasks"
-        ],
         "description": "",
         "parameters": [
           {
@@ -228,13 +213,13 @@
               "type": "object",
               "properties": {
                 "title": {
-                  "example": "Write a title about your task"
+                  "example": "any"
                 },
                 "description": {
-                  "example": "Write a description about your task"
+                  "example": "any"
                 },
                 "date": {
-                  "example": "02-02-2024"
+                  "example": "any"
                 }
               }
             }
@@ -261,9 +246,6 @@
     },
     "/api/tasks/{id}": {
       "get": {
-        "tags": [
-          "tasks"
-        ],
         "description": "",
         "parameters": [
           {
@@ -292,9 +274,6 @@
         }
       },
       "put": {
-        "tags": [
-          "tasks"
-        ],
         "description": "",
         "parameters": [
           {
@@ -323,9 +302,6 @@
         }
       },
       "delete": {
-        "tags": [
-          "tasks"
-        ],
         "description": "",
         "parameters": [
           {
