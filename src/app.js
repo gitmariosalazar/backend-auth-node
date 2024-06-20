@@ -51,7 +51,6 @@ app.get('/', async (req, res) => {
 //app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/docs', swaggerUi.serve, (req, res, next) => {
     const domain = `${req.protocol}://${req.get('host')}`;
-    console.log(swaggerSpec.servers[0]);
     swaggerSpec.servers[0].url = `${domain}`
     swaggerUi.setup(swaggerSpec)(req, res, next);
 });
