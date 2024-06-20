@@ -1,7 +1,7 @@
 .swagger-ui {
   color: #ffffff;
   font-family: sans-serif; /*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
-  background: #ffffff;
+  background: #000000;
 }
 .swagger-ui html {
   -ms-text-size-adjust: 100%;
@@ -7325,11 +7325,20 @@
   .swagger-ui .opblock .opblock-summary-path__deprecated {
     font-size: 12px;
   }
+  .swagger-ui .opblock .opblock-summary-path {
+    max-width: none !important;
+  }
 }
+
+.swagger-ui .opblock .opblock-summary-path {
+  max-width: none !important;
+}
+/*
 .swagger-ui .opblock .opblock-summary-path {
   flex-shrink: 0;
   max-width: calc(100% - 110px - 15rem);
 }
+  */
 @media (max-width: 640px) {
   .swagger-ui .opblock .opblock-summary-path {
     flex-shrink: 1;
@@ -7939,7 +7948,6 @@
   cursor: pointer;
   flex: 1;
   padding: 0;
-  background: red;
 }
 .swagger-ui .model-box-control:focus,
 .swagger-ui .models-control:focus,
