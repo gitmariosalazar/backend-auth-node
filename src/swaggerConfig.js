@@ -4,7 +4,7 @@ import swaggerUi from 'swagger-ui-express';
 // Especificación OpenAPI
 const swaggerOptions = {
     swaggerDefinition: {
-        "openapi": "3.0.3",
+        "openapi": "3.0.0",
         "info": {
             "title": "API Node JS & Mongo DB",
             "description": "Hi, my name is Mario Salazar, The next project is about users and Tasks (CRUD) and Login users.",
