@@ -7272,6 +7272,7 @@
 .swagger-ui .opblock.is-open .opblock-summary {
   border-bottom: 1px solid #000;
 }
+
 .swagger-ui .opblock .opblock-section-header {
   align-items: center;
   background: hsla(0, 22%, 13%, 0.8);
@@ -7358,6 +7359,7 @@
 }
 .swagger-ui .opblock .opblock-summary-description {
   color: #a2acc7;
+  margin-left: 10px;
   flex: 1 1 auto;
   font-family: sans-serif;
   font-size: 13px;
@@ -7368,7 +7370,8 @@
   cursor: pointer;
   display: flex;
   padding: 5px;
-  fill: whitesmoke;
+  fill: rgb(255, 0, 195);
+  font-weight: 900;
 }
 .swagger-ui .opblock .opblock-summary .view-line-link {
   cursor: pointer;
@@ -7956,13 +7959,14 @@
   border-bottom: 0;
   cursor: pointer;
   flex: 1;
-  padding: 0;
+  padding: 1;
 }
 .swagger-ui .model-box-control:focus,
 .swagger-ui .models-control:focus,
 .swagger-ui .opblock-summary-control:focus {
   outline: auto;
 }
+
 .swagger-ui .expand-methods,
 .swagger-ui .expand-operation {
   background: 0 0;
@@ -7973,7 +7977,7 @@
 .swagger-ui .expand-operation svg {
   height: 20px;
   width: 20px;
-  fill: whitesmoke;
+  color: white;
 }
 .swagger-ui .expand-methods {
   padding: 0 10px;
@@ -8237,7 +8241,7 @@
   top: 0;
 }
 .swagger-ui .dialog-ux .modal-ux {
-  background: #041042;
+  background: #061a34;
   border: 1px solid #ebebeb;
   border-radius: 4px;
   box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.2);
@@ -8427,7 +8431,7 @@
 }
 .swagger-ui section.models h4 svg {
   transition: all 0.4s;
-  fill: whitesmoke;
+  fill: white;
 }
 .swagger-ui section.models h4 span {
   flex: 1;
@@ -8559,7 +8563,7 @@
   padding: 4px;
 }
 .swagger-ui .servers-title {
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 700;
 }
 .swagger-ui .operation-servers h4.message {
@@ -9032,19 +9036,16 @@
   height: 18px;
   vertical-align: bottom;
   width: 18px;
-  fill: white;
 }
 .swagger-ui .json-schema-2020-12-accordion__icon--expanded {
   transform: rotate(-90deg);
   transform-origin: 50% 50%;
   transition: transform 0.15s ease-in;
-  color: white;
 }
 .swagger-ui .json-schema-2020-12-accordion__icon--collapsed {
   transform: rotate(0);
   transform-origin: 50% 50%;
   transition: transform 0.15s ease-in;
-  fill: white;
 }
 .swagger-ui .json-schema-2020-12-accordion__icon svg {
   fill: white;
