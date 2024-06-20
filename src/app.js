@@ -5,8 +5,8 @@ import authRoutes from './routes/auth.routes.js';
 import Tasks from './routes/tasks.routes.js';
 import {FRONTEND_URL} from './config.js';
 import cors from 'cors';
-import swaggerUi from 'swagger-ui-express';
-import ouput from '../public/json/swagger-ouput.js';
+import {swaggerSpec, swaggerUi} from './swaggerConfig.js';
+
 
 import path from 'path';
 
@@ -48,8 +48,13 @@ app.get('/', async (req, res) => {
     }
 });
 
-
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(ouput));
+//app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api/docs', swaggerUi.serve, (req, res, next) => {
+    const domain = `${req.protocol}://${req.get('host')}`;
+    console.log(swaggerSpec.servers[0]);
+    swaggerSpec.servers[0].url = `${domain}`
+    swaggerUi.setup(swaggerSpec)(req, res, next);
+});
 
 
 if (process.env.NODE_ENV === 'production') {

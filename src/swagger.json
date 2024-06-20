@@ -62,16 +62,28 @@
         "description": "",
         "parameters": [
           {
-            "name": "email",
-            "in": "path",
+            "in": "body",
+            "name": "body",
+            "description": "Credenciales del usuario",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "password",
-            "in": "path",
-            "required": true,
-            "type": "string"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "description": "Correo electrónico del usuario"
+                },
+                "password": {
+                  "type": "string",
+                  "format": "password",
+                  "description": "Contraseña del usuario"
+                }
+              },
+              "required": [
+                "email",
+                "password"
+              ]
+            }
           }
         ],
         "responses": {
