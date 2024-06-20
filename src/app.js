@@ -6,7 +6,8 @@ import Tasks from './routes/tasks.routes.js';
 import {FRONTEND_URL} from './config.js';
 import cors from 'cors';
 import {swaggerSpec, swaggerUi} from './swaggerConfig.js';
-
+import swaggerJSDoc from 'swagger-jsdoc';
+import {SwaggerUIBundle, SwaggerUIStandalonePreset} from 'swagger-ui-dist';
 
 import path from 'path';
 
@@ -52,7 +53,11 @@ app.get('/', async (req, res) => {
 app.use('/api/docs', swaggerUi.serve, (req, res, next) => {
     const domain = `${req.protocol}://${req.get('host')}`;
     swaggerSpec.servers[0].url = `${domain}`
-    swaggerUi.setup(swaggerSpec)(req, res, next);
+    swaggerUi.setup(swaggerSpec,
+        {
+            customCssUrl: "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css",
+        }
+    )(req, res, next);
 });
 
 
