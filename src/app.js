@@ -53,7 +53,10 @@ app.get('/', async (req, res) => {
 app.use('/api/docs', swaggerUi.serve, (req, res, next) => {
     const domain = `${req.protocol}://${req.get('host')}`;
     swaggerSpec.servers[0].url = `${domain}`
-    swaggerUi.setup(swaggerSpec,)(req, res, next);
+    swaggerUi.setup(swaggerSpec, {
+        customCssUrl:
+            "https://github.com/nani-samireddy/swagger-api-documentation-nodejs/blob/main/custom-css.css",
+    })(req, res, next);
 });
 
 
