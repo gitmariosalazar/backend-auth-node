@@ -55,7 +55,7 @@ app.use('/api/docs', swaggerUi.serve, (req, res, next) => {
     swaggerSpec.servers[0].url = `${domain}`
     swaggerUi.setup(swaggerSpec, {
         customCssUrl:
-            ".css/custom-css.css",
+            "/css/custom-css.css",
     })(req, res, next);
 });
 
