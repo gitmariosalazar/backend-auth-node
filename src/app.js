@@ -53,11 +53,7 @@ app.get('/', async (req, res) => {
 app.use('/api/docs', swaggerUi.serve, (req, res, next) => {
     const domain = `${req.protocol}://${req.get('host')}`;
     swaggerSpec.servers[0].url = `${domain}`
-    swaggerUi.setup(swaggerSpec,
-        {
-            customCssUrl: "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css",
-        }
-    )(req, res, next);
+    swaggerUi.setup(swaggerSpec,)(req, res, next);
 });
 
 
