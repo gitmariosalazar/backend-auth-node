@@ -1,7 +1,7 @@
 .swagger-ui {
   color: #ffffff;
   font-family: sans-serif; /*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
-  background: #01070f;
+  background: #ffffff;
 }
 .swagger-ui html {
   -ms-text-size-adjust: 100%;
@@ -7939,6 +7939,7 @@
   cursor: pointer;
   flex: 1;
   padding: 0;
+  background: red;
 }
 .swagger-ui .model-box-control:focus,
 .swagger-ui .models-control:focus,
