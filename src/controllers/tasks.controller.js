@@ -3,10 +3,15 @@ import Task from "../models/task.model.js"
 export const getTasks = async (req, res) => {
     try {
         const tasks = await Task.find({user: req.user.id}).populate("user");
-        res.json({error: null, task: tasks, message: 'Tasks found successfully'})
 
+        if (tasks && tasks.length > 0) {
+            return res.json({error: null, task: tasks, message: 'Tasks found successfully'});
+        } else {
+            return res.json({error: null, task: tasks, message: 'Tasks for user logged is empty!'});
+        }
     } catch (error) {
-        return res.status(500).json({message: error.message});
+        console.log('Error occurred:', error.message);
+        return res.status(500).json({error: error.message, message: "Error ocurred!", task: null});
     }
 };
 
@@ -19,7 +24,6 @@ export const getTask = async (req, res) => {
         }
         res.json({error: null, task: task, message: 'Task was found successfully'})
     } catch (error) {
-
         return res.status(500).json({error: error.message, task: null, message: 'Get task failed'})
     }
 }
@@ -61,7 +65,6 @@ export const deleteTask = async (req, res) => {
         }
         res.json({error: null, task: null, message: 'Task delete successfully'})
     } catch (error) {
-
         return res.status(500).json({error: error.message, task: null, message: 'Task delete error'})
     }
 }

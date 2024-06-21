@@ -33,7 +33,7 @@ const swaggerOptions = {
         ],
         "tags": [
             {
-                "name": "language",
+                "name": "tasks",
                 "description": "Everything about your Programming Languages",
                 "externalDocs": {
                     "description": "Find out more",
@@ -41,44 +41,42 @@ const swaggerOptions = {
                 }
             },
             {
-                "name": "store",
+                "name": "users",
                 "description": "Access to Petstore orders",
                 "externalDocs": {
                     "description": "Find out more about our store",
                     "url": "http://swagger.io"
                 }
-            },
-            {
-                "name": "users",
-                "description": "Operations about users"
             }
         ],
         "paths": {
             "/api/auth/register": {
                 "post": {
-                    "description": "Register new users",
                     "tags": ["users"],
-                    "description": "",
-                    "parameters": [
-                        {
-                            "name": "body",
-                            "in": "body",
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "username": {
-                                        "example": "any"
-                                    },
-                                    "email": {
-                                        "example": "any"
-                                    },
-                                    "password": {
-                                        "example": "any"
-                                    }
+                    "summary": "Register new user ✅",
+                    "description": "Register a new user to access, you need an email and password",
+                    "operationId": "RegisterUser",
+                    "requestBody": {
+                        "description": "Created new user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateUser"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateUser"
+                                }
+                            },
+                            "application/x-www-form-urlencoded": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateUser"
                                 }
                             }
                         }
-                    ],
+                    },
+
                     "responses": {
                         "200": {
                             "description": "OK"
@@ -96,8 +94,11 @@ const swaggerOptions = {
                 "post": {
                     "tags": ["users"],
                     "description": "Login for our users",
+                    "summary": "Login users ✅",
                     "parameters": [
+
                         {
+                            "description": "This is a usernaem",
                             "name": "email",
                             "in": "path",
                             "required": true,
@@ -126,7 +127,8 @@ const swaggerOptions = {
             },
             "/api/auth/verify": {
                 "post": {
-                    "description": "Verify toke of users",
+                    "summary": "Verify user token ✅",
+                    "description": "Verify if an user it logged",
                     "tags": ["users"],
                     "responses": {
                         "200": {
@@ -140,7 +142,8 @@ const swaggerOptions = {
             },
             "/api/auth/logout": {
                 "post": {
-                    "description": "Logout users",
+                    "summary": "Logout user ✅",
+                    "description": "End all sessions",
                     "tags": ["users"],
                     "responses": {
                         "200": {
@@ -157,7 +160,8 @@ const swaggerOptions = {
             },
             "/api/auth/profile": {
                 "get": {
-                    "description": "Get profile users",
+                    "summary": "Get user profile ✅",
+                    "description": "Get data information of user logged",
                     "tags": ["users"],
                     "description": "",
                     "responses": {
@@ -182,6 +186,7 @@ const swaggerOptions = {
             "/api/tasks": {
                 "get": {
                     "description": "Get Tasks by users logged",
+                    "summary": "Get a task ✅",
                     "tags": ["tasks"],
                     "responses": {
                         "200": {
@@ -199,28 +204,29 @@ const swaggerOptions = {
                     }
                 },
                 "post": {
-                    "description": "Create new Tasks",
+                    "description": "Create my Tasks",
+                    "summary": "Register new task ✅",
                     "tags": ["tasks"],
-                    "parameters": [
-                        {
-                            "name": "body",
-                            "in": "body",
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "title": {
-                                        "example": "any"
-                                    },
-                                    "description": {
-                                        "example": "any"
-                                    },
-                                    "date": {
-                                        "example": "any"
-                                    }
+                    "requestBody": {
+                        "description": "Created user task",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            },
+                            "application/x-www-form-urlencoded": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
                                 }
                             }
                         }
-                    ],
+                    },
                     "responses": {
                         "200": {
                             "description": "OK"
@@ -243,6 +249,7 @@ const swaggerOptions = {
             "/api/tasks/{id}": {
                 "get": {
                     "description": "Get task by Id",
+                    "summary": "Get a task by id ✅",
                     "tags": ["tasks"],
                     "parameters": [
                         {
@@ -272,6 +279,7 @@ const swaggerOptions = {
                 },
                 "put": {
                     "description": "Update Task",
+                    "summary": "Update a task ✅",
                     "tags": ["tasks"],
                     "parameters": [
                         {
@@ -281,6 +289,26 @@ const swaggerOptions = {
                             "type": "string"
                         }
                     ],
+                    "requestBody": {
+                        "description": "Update task object",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateTask"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateTask"
+                                }
+                            },
+                            "application/x-www-form-urlencoded": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateTask"
+                                }
+                            }
+                        }
+                    },
                     "responses": {
                         "200": {
                             "description": "OK"
@@ -301,6 +329,7 @@ const swaggerOptions = {
                 },
                 "delete": {
                     "description": "Delete a Task",
+                    "summary": "Remove a task ✅",
                     "tags": ["tasks"],
                     "parameters": [
                         {
@@ -332,139 +361,26 @@ const swaggerOptions = {
         },
         "components": {
             "schemas": {
-                "Order": {
+                "CreateUser": {
                     "type": "object",
                     "properties": {
-                        "id": {
-                            "type": "integer",
-                            "format": "int64",
-                            "example": 10
-                        },
-                        "petId": {
-                            "type": "integer",
-                            "format": "int64",
-                            "example": 198772
-                        },
-                        "quantity": {
-                            "type": "integer",
-                            "format": "int32",
-                            "example": 7
-                        },
-                        "shipDate": {
-                            "type": "string",
-                            "format": "date-time"
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Order Status",
-                            "example": "approved",
-                            "enum": [
-                                "placed",
-                                "approved",
-                                "delivered"
-                            ]
-                        },
-                        "complete": {
-                            "type": "boolean"
-                        }
-                    },
-                    "xml": {
-                        "name": "order"
-                    }
-                },
-                "Languages": {
-                    "type": "object",
-                    "properties": {
-                        "knowledge_level": {
-                            "type": "integer",
-                            "format": "int64",
-                            "example": 10
-                        },
-                        "description": {
-                            "type": "string",
-                            "example": "Write a detailed description about the programming language!"
-                        },
-                        "user_language": {
-                            "type": "integer",
-                            "format": "int32",
-                            "example": 1
-                        },
-                        "language_programming": {
-                            "type": "integer",
-                            "format": "int32",
-                            "example": 15
-                        }
-                    },
-                    "xml": {
-                        "name": "language"
-                    }
-                },
-                "Customer": {
-                    "type": "object",
-                    "properties": {
-                        "id": {
-                            "type": "integer",
-                            "format": "int64",
-                            "example": 100000
-                        },
                         "username": {
                             "type": "string",
-                            "example": "fehguy"
+                            "format": "string",
+                            "example": "mariosalazar"
                         },
-                        "address": {
-                            "type": "array",
-                            "xml": {
-                                "name": "addresses",
-                                "wrapped": true
-                            },
-                            "items": {
-                                "$ref": "#/components/schemas/Address"
-                            }
-                        }
+                        "email": {
+                            "type": "string",
+                            "example": "mariosalazar.1995@gmail.com"
+                        },
+                        "password": {
+                            "type": "string",
+                            "format": "password",
+                            "example": "password-mario"
+                        },
                     },
                     "xml": {
-                        "name": "customer"
-                    }
-                },
-                "Address": {
-                    "type": "object",
-                    "properties": {
-                        "street": {
-                            "type": "string",
-                            "example": "437 Lytton"
-                        },
-                        "city": {
-                            "type": "string",
-                            "example": "Palo Alto"
-                        },
-                        "state": {
-                            "type": "string",
-                            "example": "CA"
-                        },
-                        "zip": {
-                            "type": "string",
-                            "example": "94301"
-                        }
-                    },
-                    "xml": {
-                        "name": "address"
-                    }
-                },
-                "Category": {
-                    "type": "object",
-                    "properties": {
-                        "id": {
-                            "type": "integer",
-                            "format": "int64",
-                            "example": 1
-                        },
-                        "name": {
-                            "type": "string",
-                            "example": "Dogs"
-                        }
-                    },
-                    "xml": {
-                        "name": "category"
+                        "name": "CreateUser"
                     }
                 },
                 "User": {
@@ -620,73 +536,36 @@ const swaggerOptions = {
                         "name": "ChangePassword"
                     }
                 },
-                "Tag": {
+                "Task": {
                     "type": "object",
                     "properties": {
-                        "id": {
-                            "type": "integer",
-                            "format": "int64"
+                        "title": {
+                            "type": "string",
+                            "example": "My first task"
                         },
-                        "name": {
-                            "type": "string"
-                        }
+                        "description": {
+                            "type": "string",
+                            "example": "Write a detailed description about your task!"
+                        },
                     },
                     "xml": {
-                        "name": "tag"
+                        "name": "Task"
                     }
                 },
-                "Pet": {
-                    "required": [
-                        "name",
-                        "photoUrls"
-                    ],
+                "UpdateTask": {
                     "type": "object",
                     "properties": {
-                        "id": {
-                            "type": "integer",
-                            "format": "int64",
-                            "example": 10
-                        },
-                        "name": {
+                        "title": {
                             "type": "string",
-                            "example": "doggie"
+                            "example": "My first task"
                         },
-                        "category": {
-                            "$ref": "#/components/schemas/Category"
-                        },
-                        "photoUrls": {
-                            "type": "array",
-                            "xml": {
-                                "wrapped": true
-                            },
-                            "items": {
-                                "type": "string",
-                                "xml": {
-                                    "name": "photoUrl"
-                                }
-                            }
-                        },
-                        "tags": {
-                            "type": "array",
-                            "xml": {
-                                "wrapped": true
-                            },
-                            "items": {
-                                "$ref": "#/components/schemas/Tag"
-                            }
-                        },
-                        "status": {
+                        "description": {
                             "type": "string",
-                            "description": "pet status in the store",
-                            "enum": [
-                                "available",
-                                "pending",
-                                "sold"
-                            ]
-                        }
+                            "example": "Write a detailed description about your task!"
+                        },
                     },
                     "xml": {
-                        "name": "pet"
+                        "name": "UpdateTask"
                     }
                 },
                 "ApiResponse": {
@@ -724,6 +603,7 @@ const swaggerOptions = {
                         }
                     }
                 },
+
                 "UserArray": {
                     "description": "List of user object",
                     "content": {
