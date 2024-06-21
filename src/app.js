@@ -41,7 +41,7 @@ app.use('/api', Tasks);
 
 app.get('/', async (req, res) => {
     try {
-        const domain = `${req.protocol}://${req.get('host')}/api/docs`;
+        const domain = `https://${req.get('host')}/api/docs`;
         res.render('index', {domain: domain});
     } catch (err) {
         console.error('Error al leer el archivo HTML:', err);
