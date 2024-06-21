@@ -51,7 +51,7 @@ app.get('/', async (req, res) => {
 
 //app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/docs', swaggerUi.serve, (req, res, next) => {
-    const domain = `${req.protocol}://${req.get('host')}`;
+    const domain = `https://${req.get('host')}`;
     swaggerSpec.servers[0].url = `${domain}`
     swaggerUi.setup(swaggerSpec, {
         customCssUrl: 'https://mariosalazar-styles-swagger-ui.vercel.app/css/swagger-ui.css'
