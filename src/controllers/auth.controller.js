@@ -81,10 +81,14 @@ export const verifyToken = async (req, res) => {
 
 export const logout = async (req, res) => {
     try {
-        res.cookie('token', '', {
-            expires: new Date(0)
-        })
-        return res.status(200).json({error: null, user: 'user', message: 'Logout successfully!'})
+        console.log("coooooooooooode ", req.cookies);
+        res.cookie("token", "", {
+            httpOnly: true,
+            secure: true,
+            expires: new Date(0),
+        });
+        return res.sendStatus(200);
+        //return res.status(200).json({error: null, user: 'user', message: 'Logout successfully!'})
     } catch (error) {
         res.status(500).json({error: error, message: 'Logout failed!', user: null})
     }

@@ -96,22 +96,28 @@ const swaggerOptions = {
                     "description": "Login for our users",
                     "summary": "Login users ✅",
                     "parameters": [
-
                         {
-                            "description": "This is a usernaem",
                             "name": "email",
                             "in": "path",
+                            "description": "The user name for login",
                             "required": true,
-                            "type": "string"
+                            "schema": {
+                                "type": "string",
+                                "format": "email"
+                            }
                         },
                         {
                             "name": "password",
                             "in": "path",
+                            "description": "The password for login in clear text",
                             "required": true,
-                            "format": "password",
-                            "type": "string",
+                            "schema": {
+                                "type": "string",
+                                "format": "password"
+                            }
                         }
                     ],
+
                     "responses": {
                         "200": {
                             "description": "OK"
@@ -126,7 +132,7 @@ const swaggerOptions = {
                 }
             },
             "/api/auth/verify": {
-                "post": {
+                "get": {
                     "summary": "Verify user token ✅",
                     "description": "Verify if an user it logged",
                     "tags": ["users"],
