@@ -29,6 +29,9 @@ const swaggerOptions = {
                 "url": ""
             }, {
                 "url": "http://localhost:4000"
+            },
+            {
+                "url": "https://jf36d5k0-4000.use2.devtunnels.ms"
             }
         ],
         "tags": [

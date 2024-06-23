@@ -14,13 +14,13 @@ import path from 'path';
 const app = express();
 //app.use(cors());
 
-console.log('URL ', FRONTEND_URL);
+console.log('URL', FRONTEND_URL);
 
 
 app.use(
     cors({
         credentials: true,
-        origin: FRONTEND_URL,
+        origin: [FRONTEND_URL, "https://jf36d5k0-4000.use2.devtunnels.ms"],
     })
 );
 
@@ -41,7 +41,7 @@ app.use('/api', Tasks);
 
 app.get('/', async (req, res) => {
     try {
-        const domain = `http://${req.get('host')}/api/docs`;
+        const domain = `https://${req.get('host')}/api/docs`;
         res.render('index', {domain: domain});
     } catch (err) {
         console.error('Error al leer el archivo HTML:', err);
@@ -51,7 +51,7 @@ app.get('/', async (req, res) => {
 
 //app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/docs', swaggerUi.serve, (req, res, next) => {
-    const domain = `http://${req.get('host')}`;
+    const domain = `https://${req.get('host')}`;
     swaggerSpec.servers[0].url = `${domain}`
     swaggerUi.setup(swaggerSpec, {
         customCssUrl: 'https://mariosalazar-styles-swagger-ui.vercel.app/css/swagger-ui.css'

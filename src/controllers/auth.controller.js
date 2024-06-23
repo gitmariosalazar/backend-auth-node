@@ -4,6 +4,8 @@ import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import {TOKEN_SECRET} from "../config.js";
 import {createAccessToken} from "../libs/jwt.js"
+import {configDotenv} from "dotenv";
+configDotenv()
 
 
 export const register = async (req, res) => {
@@ -25,13 +27,42 @@ export const register = async (req, res) => {
         const user_token = {
             id: user._id, username: user.username, email: user.email, createdAt: user.createdAt
         }
-        console.log(process.env.NODE_ENV);
+        console.log(process.env.NODE_ENV_TEST);
         const token = await createAccessToken(user_token)
-        res.cookie("token", token, {
-            httpOnly: process.env.NODE_ENV !== "development",
-            secure: true,
-            sameSite: "none",
-        });
+        if (process.env.NODE_ENV_TEST === "development") {
+            console.log("Development");
+            res.cookie("token", token, {
+                // can only be accessed by server requests
+                httpOnly: true,
+                // path = where the cookie is valid
+                path: "/",
+                // domain = what domain the cookie is valid on
+                domain: "localhost",
+                // secure = only send cookie over https
+                secure: false,
+                // sameSite = only send cookie if the request is coming from the same origin
+                sameSite: "lax", // "strict" | "lax" | "none" (secure must be true)
+                // maxAge = how long the cookie is valid for in milliseconds
+                maxAge: 3600000, // 1 hour
+            });
+        }
+        console.log(process.env.NODE_ENV_TEST);
+
+        if (process.env.NODE_ENV_TEST === "production") {
+            console.log("Production");
+            res.cookie("token", token, {
+                // can only be accessed by server requests
+                httpOnly: true,
+                // path = where the cookie is valid
+                path: "/",
+                // secure = only send cookie over https
+                secure: true,
+                // sameSite = only send cookie if the request is coming from the same origin
+                sameSite: "none", // "strict" | "lax" | "none" (secure must be true)
+                // maxAge = how long the cookie is valid for in milliseconds
+                maxAge: 3600000, // 1 hour
+            });
+        }
         return res.json({error: null, user: user_token, message: 'Create user successfully!'})
     } catch (error) {
         console.log(error);
@@ -50,11 +81,29 @@ export const login = async (req, res) => {
             id: user._id, username: user.username, email: user.email, createdAt: user.createdAt
         }
         const token = await createAccessToken(user_token)
-        res.cookie("token", token, {
-            httpOnly: process.env.NODE_ENV !== "development",
-            secure: true,
-            sameSite: "none",
-        });
+
+        if (process.env.NODE_ENV_TEST === "development") {
+            console.log("development", process.env.NODE_ENV_TEST);
+            res.cookie("token", token, {
+                httpOnly: false,
+                path: "/",
+                secure: true,
+                sameSite: "none",
+                maxAge: 0.5 * 60 * 1000, // 1 hour
+            });
+        }
+
+        if (process.env.NODE_ENV_TEST === "production") {
+            console.log("production", process.env.NODE_ENV_TEST);
+
+            res.cookie("token", token, {
+                httpOnly: true,
+                path: "/",
+                secure: true,
+                sameSite: "none",
+                maxAge: 2 * 60 * 1000, // 1 hour
+            });
+        }
         res.json({error: null, user: user_token, message: 'Login successfully!', token: token})
     } catch (error) {
         res.status(500).json({error: error, message: 'Login failed!', user: null})
@@ -62,7 +111,9 @@ export const login = async (req, res) => {
 }
 
 export const verifyToken = async (req, res) => {
+
     const {token} = req.cookies;
+    console.log(token);
     if (!token) return res.send(false);
 
     jwt.verify(token, TOKEN_SECRET, async (error, user) => {
