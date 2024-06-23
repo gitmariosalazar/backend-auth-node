@@ -93,7 +93,7 @@ export const login = async (req, res) => {
                 path: "/",
                 secure: true,
                 sameSite: "none",
-                maxAge: 0.5 * 60 * 1000, // 1 hour
+                maxAge: 45 * 60 * 1000, // 1 hour
             });
         }
 
@@ -105,7 +105,7 @@ export const login = async (req, res) => {
                 path: "/",
                 secure: true,
                 sameSite: "none",
-                maxAge: 2 * 60 * 1000, // 1 hour
+                maxAge: 45 * 60 * 1000, // 1 hour
             });
         }
         res.json({error: null, user: user_token, message: 'Login successfully!', token: token})
