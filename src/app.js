@@ -20,7 +20,7 @@ console.log('URL', FRONTEND_URL);
 app.use(
     cors({
         credentials: true,
-        origin: [FRONTEND_URL, "https://jf36d5k0-4000.use2.devtunnels.ms"],
+        origin: [FRONTEND_URL, "https://jf36d5k0-4000.use2.devtunnels.ms", "http://localhost:5173"],
     })
 );
 
