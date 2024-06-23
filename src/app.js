@@ -14,13 +14,12 @@ import path from 'path';
 const app = express();
 //app.use(cors());
 
-console.log('URL', FRONTEND_URL);
 
 
 app.use(
     cors({
         credentials: true,
-        origin: [FRONTEND_URL, "https://jf36d5k0-4000.use2.devtunnels.ms", "http://localhost:5173"],
+        origin: [FRONTEND_URL, "https://jf36d5k0-4000.use2.devtunnels.ms", "http://localhost:5173", "https://blog-mario-salazar.netlify.app"],
     })
 );
 
