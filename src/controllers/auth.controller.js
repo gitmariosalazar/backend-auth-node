@@ -102,11 +102,12 @@ export const login = async (req, res) => {
             console.log("production", process.env.NODE_ENV_TEST);
 
             res.cookie("token", token, {
-                httpOnly: false,
+                httpOnly: true,
                 path: "/",
                 secure: true,
                 sameSite: "none",
                 maxAge: 45 * 60 * 1000, // 1 hour
+                domain: "blog-mario-salazar.vercel.app"
             });
         }
         res.json({error: null, user: user_token, message: 'Login successfully!', token: token})
