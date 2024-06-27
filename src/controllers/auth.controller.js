@@ -101,7 +101,7 @@ export const login = async (req, res) => {
         if (process.env.NODE_ENV_TEST === "production") {
             console.log("production", process.env.NODE_ENV_TEST);
 
-            res.cookie("token", token, {
+            res.cookie("login", token, {
                 httpOnly: true,
                 path: "/",
                 secure: true,
