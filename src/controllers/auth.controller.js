@@ -107,7 +107,7 @@ export const login = async (req, res) => {
                 secure: true,
                 sameSite: "none",
                 maxAge: 45 * 60 * 1000, // 1 hour
-                domain: "blog-mario-salazar.vercel.app"
+                domain: "https://blog-mario-salazar.vercel.app"
             });
         }
         res.json({error: null, user: user_token, message: 'Login successfully!', token: token})
