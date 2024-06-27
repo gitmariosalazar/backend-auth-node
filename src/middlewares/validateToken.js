@@ -4,6 +4,7 @@ import {TOKEN_SECRET} from "../config.js";
 export const authRequired = (req, res, next) => {
     try {
         const {token} = req.cookies
+        console.log("**************************************************************", token, "*********************************************************************");
         const domain = `http://${req.get('host')}/api/docs`;
         console.log(domain);
         if (!token) {
