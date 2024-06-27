@@ -102,7 +102,7 @@ export const login = async (req, res) => {
             console.log("production", process.env.NODE_ENV_TEST);
 
             res.cookie("token", token, {
-                httpOnly: true,
+                httpOnly: false,
                 path: "/",
                 secure: true,
                 sameSite: "none",
