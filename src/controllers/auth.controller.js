@@ -86,31 +86,32 @@ export const login = async (req, res) => {
             id: user._id, username: user.username, email: user.email, createdAt: user.createdAt
         }
         const token = await createAccessToken(user_token)
-
-        if (process.env.NODE_ENV_TEST === "development") {
-            console.log("development", process.env.NODE_ENV_TEST);
-            res.cookie("token", token, {
-                httpOnly: false,
-                path: "/",
-                secure: true,
-                sameSite: "none",
-                maxAge: 45 * 60 * 1000, // 1 hour
-                domain: "localhost"
-            });
-        }
-
-        if (process.env.NODE_ENV_TEST === "production") {
-            console.log("production", process.env.NODE_ENV_TEST);
-
-            res.cookie("login", token, {
-                httpOnly: false,
-                path: "/",
-                secure: true,
-                sameSite: "none",
-                maxAge: 45 * 60 * 1000, // 1 hour
-                domain: "blog-mario-salazar.vercel.app"
-            });
-        }
+        /*
+                if (process.env.NODE_ENV_TEST === "development") {
+                    console.log("development", process.env.NODE_ENV_TEST);
+                    res.cookie("token", token, {
+                        httpOnly: false,
+                        path: "/",
+                        secure: true,
+                        sameSite: "none",
+                        maxAge: 45 * 60 * 1000, // 1 hour
+                        domain: "localhost"
+                    });
+                }
+        
+                if (process.env.NODE_ENV_TEST === "production") {
+                    console.log("production", process.env.NODE_ENV_TEST);
+        
+                    res.cookie("login", token, {
+                        httpOnly: false,
+                        path: "/",
+                        secure: true,
+                        sameSite: "none",
+                        maxAge: 45 * 60 * 1000, // 1 hour
+                        domain: "blog-mario-salazar.vercel.app"
+                    });
+                }
+            */
         res.json({error: null, user: user_token, message: 'Login successfully!', token: token})
     } catch (error) {
         res.status(500).json({error: error, message: 'Login failed!', user: null})
