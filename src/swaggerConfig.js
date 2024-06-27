@@ -31,7 +31,7 @@ const swaggerOptions = {
                 "url": "http://localhost:4000"
             },
             {
-                "url": "https://jf36d5k0-4000.use2.devtunnels.ms"
+                "url": "https://backend-auth-node.vercel.app"
             }
         ],
         "tags": [
@@ -93,33 +93,32 @@ const swaggerOptions = {
                     }
                 }
             },
-            "/api/auth/login/{email}/{password}": {
+            "/api/auth/login": {
                 "post": {
                     "tags": ["users"],
                     "description": "Login for our users",
                     "summary": "Login users ✅",
-                    "parameters": [
-                        {
-                            "name": "email",
-                            "in": "path",
-                            "description": "The user name for login",
-                            "required": true,
-                            "schema": {
-                                "type": "string",
-                                "format": "email"
-                            }
-                        },
-                        {
-                            "name": "password",
-                            "in": "path",
-                            "description": "The password for login in clear text",
-                            "required": true,
-                            "schema": {
-                                "type": "string",
-                                "format": "password"
+                    "operationId": "LoginUser",
+                    "requestBody": {
+                        "description": "Login user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginUser"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginUser"
+                                }
+                            },
+                            "application/x-www-form-urlencoded": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginUser"
+                                }
                             }
                         }
-                    ],
+                    },
 
                     "responses": {
                         "200": {
@@ -390,6 +389,24 @@ const swaggerOptions = {
                     },
                     "xml": {
                         "name": "CreateUser"
+                    }
+                },
+                "LoginUser": {
+                    "type": "object",
+                    "properties": {
+                        "email": {
+                            "type": "string",
+                            "format": "string",
+                            "example": "mariosalazar.ms.10@gmail.com"
+                        },
+                        "password": {
+                            "type": "string",
+                            "format": "password",
+                            "example": "password-mario"
+                        },
+                    },
+                    "xml": {
+                        "name": "LoginUser"
                     }
                 },
                 "User": {

@@ -71,12 +71,13 @@ export const register = async (req, res) => {
 }
 
 export const login = async (req, res) => {
-    const {email, password} = req.params
+    const {email, password} = req.body
     try {
         var referer = req.headers.referer;
         var origin = req.headers.referer;
         console.log("Referer name: ", referer);
         console.log("Origin name: ", origin);
+        console.log("NODE ENV TEST: : ", process.env.NODE_ENV_TEST);
         const user = await User.findOne({email})
         if (!user) return res.status(400).json({error: null, user: null, message: 'User or email is not correct!'})
         const isMatch = await bcrypt.compare(password, user.password)
