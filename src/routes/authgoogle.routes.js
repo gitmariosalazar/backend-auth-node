@@ -5,6 +5,8 @@ import {findOrCreateUser} from '../controllers/authController.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
 import {configDotenv} from 'dotenv';
 import {hashPassword} from '../libs/bcrypt.js';
+import {URL_FRONTEND} from '../config.js';
+import {createToken} from '../libs/jwt.js';
 
 
 configDotenv()
@@ -38,9 +40,17 @@ router.get('/github',
 
 router.get('/github/callback',
     passport.authenticate('github', {failureRedirect: '/init'}),
-    function (req, res) {
-        // Successful authentication, redirect home.
-        res.redirect('/profile');
+    async (req, res) => {
+        let user = await findOrCreateUser(req.user)
+        const token = createToken(user)
+        console.log("user => ", token);
+        res.cookie('jwt', token, {
+            httpOnly: false,
+            secure: true, // Solo si estás usando HTTPS
+            sameSite: 'None', // Cambia esto según sea necesario (None, Lax, Strict)
+            maxAge: 3600000 // 1 hora
+        });
+        res.redirect(URL_FRONTEND);
     });
 
 router.post('/register', async (req, res) => {
@@ -70,8 +80,15 @@ router.get('/google/callback',
     passport.authenticate('google', {failureRedirect: '/'}),
     async (req, res) => {
         let user = await findOrCreateUser(req.user)
-        console.log("user => ", user);
-        res.redirect('/profile');
+        const token = createToken(user)
+        console.log("user => ", token);
+        res.cookie('jwt', token, {
+            httpOnly: false,
+            secure: true, // Solo si estás usando HTTPS
+            sameSite: 'None', // Cambia esto según sea necesario (None, Lax, Strict)
+            maxAge: 3600000 // 1 hora
+        });
+        res.redirect(URL_FRONTEND);
     }
 );
 
@@ -79,8 +96,15 @@ router.get('/twitter/callback',
     passport.authenticate('twitter', {failureRedirect: '/login'}),
     async (req, res) => {
         let user = await findOrCreateUser(req.user)
-        console.log("user => ", user);
-        res.redirect('/profile');
+        const token = createToken(user)
+        console.log("user => ", token);
+        res.cookie('jwt', token, {
+            httpOnly: false,
+            secure: true, // Solo si estás usando HTTPS 
+            sameSite: 'None', // Cambia esto según sea necesario (None, Lax, Strict)
+            maxAge: 3600000 // 1 hora
+        });
+        res.redirect(URL_FRONTEND);
     });
 
 
@@ -88,8 +112,15 @@ router.get('/facebook/callback',
     passport.authenticate('facebook', {failureRedirect: '/'}),
     async (req, res) => {
         let user = await findOrCreateUser(req.user)
-        console.log("user => ", user);
-        res.redirect('/profile');
+        const token = createToken(user)
+        console.log("user => ", token);
+        res.cookie('jwt', token, {
+            httpOnly: false,
+            secure: true, // Solo si estás usando HTTPS
+            sameSite: 'None', // Cambia esto según sea necesario (None, Lax, Strict)
+            maxAge: 3600000 // 1 hora
+        });
+        res.redirect(URL_FRONTEND);
     });
 
 router.get('/init', (req, res) => {
