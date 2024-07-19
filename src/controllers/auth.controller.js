@@ -138,20 +138,6 @@ export const verifyToken = async (req, res) => {
     });
 };
 
-export const logout = async (req, res) => {
-    try {
-        console.log("coooooooooooode ", req.cookies);
-        res.cookie("token", "", {
-            httpOnly: true,
-            secure: true,
-            expires: new Date(0),
-        });
-        return res.sendStatus(200);
-        //return res.status(200).json({error: null, user: 'user', message: 'Logout successfully!'})
-    } catch (error) {
-        res.status(500).json({error: error, message: 'Logout failed!', user: null})
-    }
-}
 
 export const profile = async (req, res) => {
     const user = await User.findById(req.user.id)

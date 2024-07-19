@@ -2,11 +2,11 @@
 import {Router} from 'express';
 import passport from 'passport';
 import {findOrCreateUser} from '../controllers/authController.js';
-import authMiddleware from '../middlewares/authMiddleware.js';
 import {configDotenv} from 'dotenv';
 import {hashPassword} from '../libs/bcrypt.js';
 import {URL_FRONTEND} from '../config.js';
 import {createToken} from '../libs/jwt.js';
+import {logout, logoutUser} from '../middlewares/authMiddleware.js';
 
 
 configDotenv()
@@ -45,7 +45,7 @@ router.get('/github/callback',
         const token = createToken(user)
         console.log("user => ", token);
         res.cookie('jwt', token, {
-            httpOnly: false,
+            httpOnly: true,
             secure: true, // Solo si estás usando HTTPS
             sameSite: 'None', // Cambia esto según sea necesario (None, Lax, Strict)
             maxAge: 3600000 // 1 hora
@@ -66,15 +66,7 @@ router.post('/register', async (req, res) => {
 });
 
 
-router.get('/logout', (req, res) => {
-    req.logout((err) => {
-        if (err) {
-            return next(err);
-        }
-        res.redirect('/');
-    });
-});
-
+router.get('/logout', logoutUser);
 
 router.get('/google/callback',
     passport.authenticate('google', {failureRedirect: '/'}),
@@ -83,7 +75,7 @@ router.get('/google/callback',
         const token = createToken(user)
         console.log("user => ", token);
         res.cookie('jwt', token, {
-            httpOnly: false,
+            httpOnly: true,
             secure: true, // Solo si estás usando HTTPS
             sameSite: 'None', // Cambia esto según sea necesario (None, Lax, Strict)
             maxAge: 3600000 // 1 hora
@@ -99,7 +91,7 @@ router.get('/twitter/callback',
         const token = createToken(user)
         console.log("user => ", token);
         res.cookie('jwt', token, {
-            httpOnly: false,
+            httpOnly: true,
             secure: true, // Solo si estás usando HTTPS 
             sameSite: 'None', // Cambia esto según sea necesario (None, Lax, Strict)
             maxAge: 3600000 // 1 hora
@@ -115,7 +107,7 @@ router.get('/facebook/callback',
         const token = createToken(user)
         console.log("user => ", token);
         res.cookie('jwt', token, {
-            httpOnly: false,
+            httpOnly: true,
             secure: true, // Solo si estás usando HTTPS
             sameSite: 'None', // Cambia esto según sea necesario (None, Lax, Strict)
             maxAge: 3600000 // 1 hora
@@ -146,9 +138,5 @@ router.get('/init', (req, res) => {
 
 
 
-router.get('/logout', (req, res) => {
-    req.logout();
-    res.redirect('/');
-});
 
 export default router;

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import {config} from 'dotenv';
 import {TOKEN_SECRET} from "../config.js";
-import {isBlacklisted} from "../libs/jwt.js";
+import {addToBlacklist, isBlacklisted} from "../libs/jwt.js";
 import {findUserOne} from "../controllers/authController.js";
 
 config()
@@ -16,11 +16,9 @@ async function getUserById (email) {
     }
 }
 
-const verifyToken = async (req, res, next) => {
+export const verifyToken = async (req, res, next) => {
     const token = req.cookies.jwt;
     const sessionCookie = req.cookies['connect.sid'];
-    console.log('JWT Cookie:', token);
-    console.log('Session Cookie:', sessionCookie);
     try {
         //const token = req.cookies.jwt;
         if (!token) {
@@ -39,7 +37,36 @@ const verifyToken = async (req, res, next) => {
     }
 };
 
-const logout = async (req, res) => {
+
+export const logoutUser = async (req, res) => {
+    try {
+        const token = req.cookies.jwt;
+        console.log(token)
+        if (!token) {
+            return res.status(403).json({message: "You are not logged in!"});
+        }
+        console.log("0");
+        const secretkey = TOKEN_SECRET
+        const decoded = jwt.verify(token, secretkey);
+        const user = await findUserOne(decoded.email);
+        console.log(user);
+        req.user = user;
+        if (!user) {
+            return res.status(500).json({message: "Unauthorized, User not foud!"});
+        }
+        req.session.destroy((err) => {
+            if (err) {
+                console.error(err);
+            }
+        });
+        addToBlacklist(token)
+        //res.status(200).json({message: "Logout successfully!"})
+    } catch (error) {
+        res.status(200).json({message: "Error token: " + error.message});
+    }
+}
+
+export const logout = async (req, res) => {
     try {
         req.session.destroy((err) => {
             if (err) {
@@ -53,5 +80,3 @@ const logout = async (req, res) => {
 
     }
 }
-
-export default verifyToken;

@@ -18,7 +18,7 @@ import User from './models/user.model.js';
 import {verifyPassword} from './libs/bcrypt.js';
 import {Strategy as LocalStrategy} from 'passport-local';
 import {findOrCreateUser, findUserOne} from './controllers/authController.js';
-import verifyToken from './middlewares/authMiddleware.js';
+import {verifyToken} from './middlewares/authMiddleware.js';
 
 const app = express();
 
@@ -38,7 +38,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(cors({
     credentials: true,
-    origin: [FRONTEND_URL, "https://jf36d5k0-4000.use2.devtunnels.ms", "http://localhost:5173", "https://blog-mario-salazar.netlify.app", "https://blog-mario-salazar-bq3gujeoi-mario-salazars-projects.vercel.app"],
+    origin: [FRONTEND_URL, "https://jf36d5k0-4000.use2.devtunnels.ms", "http://localhost:5173", "https://blog-mario-salazar.netlify.app", "https://blog-mario-salazar-bq3gujeoi-mario-salazars-projects.vercel.app", "https://www.mssalazar.com"],
 }));
 
 console.log(URL_DOMAIN);
