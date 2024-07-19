@@ -12,5 +12,10 @@ const verifyPassword = async (password, hashedPassword) => {
     const match = await bcrypt.compare(password, hashedPassword);
     return match;
 };
+/*
+let p = 'password-mario';
+let hp = await hashPassword(p)
+console.log(p, hp, await verifyPassword(p, hp));
+*/
 
 export {hashPassword, verifyPassword}

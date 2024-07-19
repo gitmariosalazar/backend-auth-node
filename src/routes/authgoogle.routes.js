@@ -1,7 +1,7 @@
 // routes/authRoutes.js
 import {Router} from 'express';
 import passport from 'passport';
-import {findOrCreateUser} from '../controllers/authController.js';
+import {findOrCreateUser, findUserOne, register} from '../controllers/authController.js';
 import {configDotenv} from 'dotenv';
 import {hashPassword} from '../libs/bcrypt.js';
 import {URL_FRONTEND} from '../config.js';
@@ -32,8 +32,24 @@ router.get('/facebook',
 router.post('/login',
     passport.authenticate('local', {failureRedirect: '/auth/login'}),
     async (req, res) => {
-        res.send(req.user);
+        console.log(req.user);
+        if (req.user.user != null) {
+            let user = await findUserOne(req.user.user.email)
+            const token = createToken(user)
+            console.log("user => ", token);
+            res.cookie('jwt', token, {
+                httpOnly: true,
+                secure: true, // Solo si estás usando HTTPS
+                sameSite: 'None', // Cambia esto según sea necesario (None, Lax, Strict)
+                maxAge: 3600000 // 1 hora
+            });
+            res.send(req.user)
+        } else {
+            res.send(req.user)
+        }
     });
+
+router.post('/register', register)
 
 router.get('/github',
     passport.authenticate('github', {scope: ['user:email']}));
@@ -71,6 +87,7 @@ router.get('/logout', logoutUser);
 router.get('/google/callback',
     passport.authenticate('google', {failureRedirect: '/'}),
     async (req, res) => {
+        req.user.password = hashPassword('password-mario')
         let user = await findOrCreateUser(req.user)
         const token = createToken(user)
         console.log("user => ", token);

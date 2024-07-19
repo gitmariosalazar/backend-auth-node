@@ -14,15 +14,15 @@ import {Strategy as GoogleStrategy} from 'passport-google-oauth20';
 import {Strategy as TwitterStrategy} from 'passport-twitter';
 import {Strategy as FacebookStrategy} from 'passport-facebook';
 import {Strategy as GitHubStrategy} from 'passport-github2';
-import User from './models/user.model.js';
-import {verifyPassword} from './libs/bcrypt.js';
+import {hashPassword, verifyPassword} from './libs/bcrypt.js';
 import {Strategy as LocalStrategy} from 'passport-local';
-import {findOrCreateUser, findUserOne} from './controllers/authController.js';
+import {findUserOne} from './controllers/authController.js';
 import {verifyToken} from './middlewares/authMiddleware.js';
+import bcrypt from 'bcrypt'
 
 const app = express();
 
-console.log(TOKEN_SECRET);
+console.log('//////////// ', await hashPassword('password-mario'));
 // Middleware setup
 app.use(morgan('dev'));
 app.use(express.json());
@@ -105,14 +105,32 @@ passport.use(new GitHubStrategy({
 
 passport.use(new LocalStrategy(
     async (username, password, done) => {
-        let user = await findUserOne(username)
-        //console.log("user => ", user);
-        if (!user) {
-            return done(null, false)
+        let resp = {
+            user: null, error: null, message: 'User or email are incorrect!'
         }
-        if (user && verifyPassword(password, user.password)) {
-            return done(null, user)
+        try {
+            let user = await findUserOne(username)
+            if (user === null) {
+                return done(null, resp)
+            }
+            else {
+                const isMath = await bcrypt.compare(password, user.password);
+                if (user === null || isMath === false) {
+                    return done(null, resp)
+                }
+                if (user != null) {
+                    resp.user = user
+                    resp.message = 'Login Successfully, Welcome dear ' + user.name
+                    return done(null, resp)
+                }
+            }
+
+
+        } catch (error) {
+            resp.error = error.message
+            return done(null, resp)
         }
+
     }
 ));
 
