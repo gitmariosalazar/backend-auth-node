@@ -11,11 +11,6 @@ import {logoutUser} from '../middlewares/authMiddleware.js';
 configDotenv()
 const router = Router();
 
-
-router.get('/google', passport.authenticate('google', {
-    scope: ['profile', 'email'],
-}));
-
 const captureAndLogReferer = (req, res, next) => {
     const referer = req.get('referer');
     if (referer) {
@@ -23,6 +18,14 @@ const captureAndLogReferer = (req, res, next) => {
     }
     next();
 };
+
+router.get('/google', captureAndLogReferer, passport.authenticate('google', {
+    scope: ['profile', 'email'],
+}));
+
+
+router.get('/github', captureAndLogReferer,
+    passport.authenticate('github', {scope: ['user:email']}));
 
 
 router.get('/twitter',
@@ -33,7 +36,7 @@ router.get('/twitter',
 );
 
 
-router.get('/facebook',
+router.get('/facebook', captureAndLogReferer,
     passport.authenticate('facebook', {
         scope: ['email']
     })
@@ -59,21 +62,20 @@ router.post('/login',
 
 router.post('/register', register)
 
-router.get('/github',
-    passport.authenticate('github', {scope: ['user:email']}));
 
 router.get('/github/callback',
     passport.authenticate('github', {failureRedirect: '/init'}),
     async (req, res) => {
-        const referer = req.get('referer');
         let user = await findOrCreateUser(req.user)
         const token = createToken(user)
+        console.log('object', user);
         res.cookie('jwt', token, {
             httpOnly: true,
             secure: true,
             sameSite: 'None',
             maxAge: 3600000
         });
+        const referer = req.cookies.referer
         res.redirect(referer);
     });
 /*
@@ -95,8 +97,6 @@ router.post('/logout', logoutUser);
 router.get('/google/callback',
     passport.authenticate('google', {failureRedirect: '/'}),
     async (req, res) => {
-        const referer = req.get('referer');
-        req.user.password = hashPassword('password-mario')
         let user = await findOrCreateUser(req.user)
         const token = createToken(user)
         res.cookie('jwt', token, {
@@ -105,6 +105,7 @@ router.get('/google/callback',
             sameSite: 'None',
             maxAge: 3600000
         });
+        const referer = req.cookies.referer
         res.redirect(referer);
     }
 );
@@ -134,7 +135,6 @@ router.get('/twitter/callback',
 router.get('/facebook/callback',
     passport.authenticate('facebook', {failureRedirect: '/'}),
     async (req, res) => {
-        const referer = req.get('referer');
         let user = await findOrCreateUser(req.user)
         const token = createToken(user)
         res.cookie('jwt', token, {
@@ -143,6 +143,7 @@ router.get('/facebook/callback',
             sameSite: 'None',
             maxAge: 3600000
         });
+        const referer = req.cookies.referer
         res.redirect(referer);
     });
 

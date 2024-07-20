@@ -17,7 +17,7 @@ export const FRONTEND_URL =
         ? process.env.FRONTEND_URL_DEVELOPMENT
         : process.env.FRONTEND_URL_PRODUCTION;
 
-//export const URL_FRONTEND = process.env.FRONTEND_URL
+export const URL_FRONTEND = process.env.FRONTEND_URL
 export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
 export const TWITTER_CLIENT_ID = process.env.TWITTER_CLIENT_ID

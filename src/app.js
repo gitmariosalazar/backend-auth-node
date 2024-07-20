@@ -35,7 +35,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(cors({
     credentials: true,
-    origin: [FRONTEND_URL, "https://jf36d5k0-4000.use2.devtunnels.ms", "http://localhost:5173", "https://blog-mario-salazar.netlify.app", "https://blog-mario-salazar-bq3gujeoi-mario-salazars-projects.vercel.app", "https://www.mssalazar.com"],
+    origin: [FRONTEND_URL, "https://jf36d5k0-4000.use2.devtunnels.ms", "http://localhost:5173", "https://blog-mario-salazar.netlify.app", "https://blog-mario-salazar-bq3gujeoi-mario-salazars-projects.vercel.app", "https://www.mssalazar.com", 'https://blog-mario-salazar.vercel.app'],
 }));
 
 
