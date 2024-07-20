@@ -32,16 +32,14 @@ router.get('/facebook',
 router.post('/login',
     passport.authenticate('local', {failureRedirect: '/auth/login'}),
     async (req, res) => {
-        console.log(req.user);
         if (req.user.user != null) {
             let user = await findUserOne(req.user.user.email)
             const token = createToken(user)
-            console.log("user => ", token);
             res.cookie('jwt', token, {
                 httpOnly: true,
-                secure: true, // Solo si estás usando HTTPS
-                sameSite: 'None', // Cambia esto según sea necesario (None, Lax, Strict)
-                maxAge: 3600000 // 1 hora
+                secure: true,
+                sameSite: 'None',
+                maxAge: 3600000
             });
             res.send(req.user)
         } else {
@@ -59,12 +57,11 @@ router.get('/github/callback',
     async (req, res) => {
         let user = await findOrCreateUser(req.user)
         const token = createToken(user)
-        console.log("user => ", token);
         res.cookie('jwt', token, {
             httpOnly: true,
-            secure: true, // Solo si estás usando HTTPS
-            sameSite: 'None', // Cambia esto según sea necesario (None, Lax, Strict)
-            maxAge: 3600000 // 1 hora
+            secure: true,
+            sameSite: 'None',
+            maxAge: 3600000
         });
         res.redirect(URL_FRONTEND);
     });
@@ -90,12 +87,11 @@ router.get('/google/callback',
         req.user.password = hashPassword('password-mario')
         let user = await findOrCreateUser(req.user)
         const token = createToken(user)
-        console.log("user => ", token);
         res.cookie('jwt', token, {
             httpOnly: true,
-            secure: true, // Solo si estás usando HTTPS
-            sameSite: 'None', // Cambia esto según sea necesario (None, Lax, Strict)
-            maxAge: 3600000 // 1 hora
+            secure: true,
+            sameSite: 'None',
+            maxAge: 3600000
         });
         res.redirect(URL_FRONTEND);
     }
@@ -106,12 +102,11 @@ router.get('/twitter/callback',
     async (req, res) => {
         let user = await findOrCreateUser(req.user)
         const token = createToken(user)
-        console.log("user => ", token);
         res.cookie('jwt', token, {
             httpOnly: true,
-            secure: true, // Solo si estás usando HTTPS 
-            sameSite: 'None', // Cambia esto según sea necesario (None, Lax, Strict)
-            maxAge: 3600000 // 1 hora
+            secure: true,
+            sameSite: 'None',
+            maxAge: 3600000
         });
         res.redirect(URL_FRONTEND);
     });
@@ -122,12 +117,11 @@ router.get('/facebook/callback',
     async (req, res) => {
         let user = await findOrCreateUser(req.user)
         const token = createToken(user)
-        console.log("user => ", token);
         res.cookie('jwt', token, {
             httpOnly: true,
-            secure: true, // Solo si estás usando HTTPS
-            sameSite: 'None', // Cambia esto según sea necesario (None, Lax, Strict)
-            maxAge: 3600000 // 1 hora
+            secure: true,
+            sameSite: 'None',
+            maxAge: 3600000
         });
         res.redirect(URL_FRONTEND);
     });

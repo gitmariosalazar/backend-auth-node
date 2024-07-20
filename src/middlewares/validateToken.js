@@ -4,9 +4,7 @@ import {TOKEN_SECRET} from "../config.js";
 export const authRequired = (req, res, next) => {
     try {
         const {token} = req.cookies
-        console.log("**************************************************************", token, "*********************************************************************");
         const domain = `http://${req.get('host')}/api/docs`;
-        console.log(domain);
         if (!token) {
             return res.status(401).json({error: null, user: null, message: 'No token found!, Authorization denied.'})
         }

@@ -10,7 +10,6 @@ export const getTasks = async (req, res) => {
             return res.json({error: null, task: tasks, message: 'Tasks for user logged is empty!'});
         }
     } catch (error) {
-        console.log('Error occurred:', error.message);
         return res.status(500).json({error: error.message, message: "Error ocurred!", task: null});
     }
 };
@@ -29,7 +28,6 @@ export const getTask = async (req, res) => {
 }
 export const createTask = async (req, res) => {
     try {
-        console.log(req.user.id)
         const {title, description, date} = req.body
         const task = new Task({title, description, date, user: req.user.id})
         const saveTask = await task.save()

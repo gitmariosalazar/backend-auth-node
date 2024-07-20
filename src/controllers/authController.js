@@ -27,7 +27,6 @@ export const findOrCreateUser = async (profile) => {
 export const register = async (req, res) => {
     const {name, email, password, verifypassword} = req.body
     try {
-        console.log(req.body);
         let userFoundByEmail = await findUserOne(email)
         if (userFoundByEmail != null) {
             return res.status(200).json({error: 'The email already exists!', message: 'The username already exists!', user: null})
@@ -48,7 +47,6 @@ export const register = async (req, res) => {
         //const user = await newUser.save()
         return res.status(201).json({error: null, user: userFoundByEmail, message: 'Create user successfully!'})
     } catch (error) {
-        console.log(error);
         res.status(500).json({error: error, message: 'Failed on create User!', user: null})
     }
 }
@@ -67,12 +65,11 @@ export const SignIn = async (username, password) => {
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) return res.status(400).json({error: null, user: null, message: 'User or email is not correct!'})
     const token = createToken(user)
-    console.log("user => ", token);
     res.cookie('jwt', token, {
         httpOnly: true,
-        secure: true, // Solo si estás usando HTTPS
-        sameSite: 'None', // Cambia esto según sea necesario (None, Lax, Strict)
-        maxAge: 3600000 // 1 hora
+        secure: true,
+        sameSite: 'None',
+        maxAge: 3600000
     });
     res.json({error: null, user: user_token, message: 'Login successfully!', token: token})
 }

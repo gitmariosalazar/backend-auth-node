@@ -18,7 +18,7 @@ export const register = async (req, res) => {
         }
         if (userFoundByEmail) return res.status(400).json({error: ['The email already exists!'], message: 'The email already exists!', user: userFoundByEmail})
         if (userFoundByUsername) return res.status(400).json({error: ['The username already exists!'], message: 'The username already exists!', user: userFoundByUsername})
-        console.log("object");
+
         const password_hash = await bcrypt.hash(password, 10)
         const newUser = new User({
             username, email, password: password_hash
@@ -27,10 +27,8 @@ export const register = async (req, res) => {
         const user_token = {
             id: user._id, username: user.username, email: user.email, createdAt: user.createdAt
         }
-        console.log(process.env.NODE_ENV_TEST);
         const token = await createAccessToken(user_token)
         if (process.env.NODE_ENV_TEST === "development") {
-            console.log("Development");
             res.cookie("token", token, {
                 // can only be accessed by server requests
                 httpOnly: true,
@@ -46,10 +44,7 @@ export const register = async (req, res) => {
                 maxAge: 3600000, // 1 hour
             });
         }
-        console.log(process.env.NODE_ENV_TEST);
-
         if (process.env.NODE_ENV_TEST === "production") {
-            console.log("Production");
             res.cookie("token", token, {
                 // can only be accessed by server requests
                 httpOnly: true,
@@ -65,7 +60,6 @@ export const register = async (req, res) => {
         }
         return res.json({error: null, user: user_token, message: 'Create user successfully!'})
     } catch (error) {
-        console.log(error);
         res.status(500).json({error: error, message: 'Failed on create User!', user: null})
     }
 }
@@ -75,9 +69,6 @@ export const login = async (req, res) => {
     try {
         var referer = req.headers.referer;
         var origin = req.headers.referer;
-        console.log("Referer name: ", referer);
-        console.log("Origin name: ", origin);
-        console.log("NODE ENV TEST: : ", process.env.NODE_ENV_TEST);
         const user = await User.findOne({email})
         if (!user) return res.status(400).json({error: null, user: null, message: 'User or email is not correct!'})
         const isMatch = await bcrypt.compare(password, user.password)
@@ -121,7 +112,6 @@ export const login = async (req, res) => {
 export const verifyToken = async (req, res) => {
 
     const {token} = req.cookies;
-    console.log(token);
     if (!token) return res.send(false);
 
     jwt.verify(token, TOKEN_SECRET, async (error, user) => {

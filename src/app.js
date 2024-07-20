@@ -21,8 +21,6 @@ import {verifyToken} from './middlewares/authMiddleware.js';
 import bcrypt from 'bcrypt'
 
 const app = express();
-
-console.log('//////////// ', await hashPassword('password-mario'));
 // Middleware setup
 app.use(morgan('dev'));
 app.use(express.json());
@@ -41,7 +39,6 @@ app.use(cors({
     origin: [FRONTEND_URL, "https://jf36d5k0-4000.use2.devtunnels.ms", "http://localhost:5173", "https://blog-mario-salazar.netlify.app", "https://blog-mario-salazar-bq3gujeoi-mario-salazars-projects.vercel.app", "https://www.mssalazar.com"],
 }));
 
-console.log(URL_DOMAIN);
 
 // Passport strategy setup
 //https://app-backend-aztra.vercel.app/auth/google/callback
@@ -54,7 +51,6 @@ passport.use(new GoogleStrategy({
     return done(null, profile);
 }));
 
-console.log(TWITTER_CLIENT_ID, TWITTER_CLIENT_SECRET, URL_FRONTEND, URL_DOMAIN + '/auth/twitter/callback',);
 
 //https://app-backend-aztra.vercel.app/auth/twitter/callback
 //https://backend-auth-node.vercel.app/auth/twitter/callback 
@@ -158,7 +154,6 @@ app.get('/', async (req, res) => {
 
 
 app.get('/profile', verifyToken, (req, res) => {
-    console.log('object');
     res.send(req.user)
 });
 
@@ -184,7 +179,6 @@ if (process.env.NODE_ENV === 'production') {
 
 // Error handling
 app.use((err, req, res, next) => {
-    console.error(err.stack);
     res.status(500).send('Something broke!');
 });
 
