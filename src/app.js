@@ -8,7 +8,7 @@ import path from 'path';
 import authRoutes from './routes/auth.routes.js';
 import Tasks from './routes/tasks.routes.js';
 import authgoogle from './routes/authgoogle.routes.js';
-import {FRONTEND_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, TOKEN_SECRET, URL_DOMAIN, NODE_ENV_NAME, TWITTER_CLIENT_ID, TWITTER_CLIENT_SECRET, FACEBOOK_CLIENT_ID, FACEBOOK_CLIENT_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, URL_FRONTEND} from './config.js';
+import {FRONTEND_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, TOKEN_SECRET, URL_DOMAIN, NODE_ENV_NAME, TWITTER_CLIENT_ID, TWITTER_CLIENT_SECRET, FACEBOOK_CLIENT_ID, FACEBOOK_CLIENT_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET} from './config.js';
 import {swaggerSpec, swaggerUi} from './swaggerConfig.js';
 import {Strategy as GoogleStrategy} from 'passport-google-oauth20';
 import {Strategy as TwitterStrategy} from 'passport-twitter';
@@ -58,9 +58,9 @@ passport.use(new TwitterStrategy({
     consumerKey: TWITTER_CLIENT_ID,
     consumerSecret: TWITTER_CLIENT_SECRET,
     callbackURL: URL_DOMAIN + '/auth/twitter/callback',
-    includeEmail: true
+    includeEmail: true, passReqToCallback: true
 },
-    async (token, tokenSecret, profile, done) => {
+    async (req, token, tokenSecret, profile, done) => {
         return done(null, profile);
     }
 ));

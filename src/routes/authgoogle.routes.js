@@ -16,10 +16,21 @@ router.get('/google', passport.authenticate('google', {
     scope: ['profile', 'email'],
 }));
 
+const captureAndLogReferer = (req, res, next) => {
+    const referer = req.get('referer');
+    if (referer) {
+        res.cookie('referer', referer, {httpOnly: true, secure: true, sameSite: 'None'});
+    }
+    next();
+};
+
+
 router.get('/twitter',
+    captureAndLogReferer,
     passport.authenticate('twitter', {
         scope: ['include_email=true']
-    }));
+    })
+);
 
 
 router.get('/facebook',
@@ -98,20 +109,26 @@ router.get('/google/callback',
     }
 );
 
+
 router.get('/twitter/callback',
-    passport.authenticate('twitter', {failureRedirect: '/login'}),
+    passport.authenticate('twitter', {failureRedirect: '/'}),
     async (req, res) => {
-        const referer = req.get('referer');
-        let user = await findOrCreateUser(req.user)
-        const token = createToken(user)
+        req.user.password = hashPassword('password-mario');
+        let user = await findOrCreateUser(req.user);
+        const token = createToken(user);
+
         res.cookie('jwt', token, {
             httpOnly: true,
             secure: true,
             sameSite: 'None',
             maxAge: 3600000
         });
+
+        const referer = req.cookies.referer
         res.redirect(referer);
-    });
+    }
+);
+
 
 
 router.get('/facebook/callback',
