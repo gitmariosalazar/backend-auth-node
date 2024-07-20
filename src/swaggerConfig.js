@@ -93,7 +93,7 @@ const swaggerOptions = {
                     }
                 }
             },
-            "/api/auth/login": {
+            "/auth/login": {
                 "post": {
                     "tags": ["users"],
                     "description": "Login for our users",
@@ -148,7 +148,7 @@ const swaggerOptions = {
                     }
                 }
             },
-            "/api/auth/logout": {
+            "/auth/logout": {
                 "post": {
                     "summary": "Logout user ✅",
                     "description": "End all sessions",
@@ -394,7 +394,7 @@ const swaggerOptions = {
                 "LoginUser": {
                     "type": "object",
                     "properties": {
-                        "email": {
+                        "username": {
                             "type": "string",
                             "format": "string",
                             "example": "mariosalazar.ms.10@gmail.com"

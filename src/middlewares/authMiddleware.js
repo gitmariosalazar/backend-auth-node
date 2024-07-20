@@ -18,7 +18,6 @@ async function getUserById (email) {
 
 export const verifyToken = async (req, res, next) => {
     const token = req.cookies.jwt;
-    const sessionCookie = req.cookies['connect.sid'];
     try {
         //const token = req.cookies.jwt;
         if (!token) {

@@ -14,7 +14,6 @@ import {Strategy as GoogleStrategy} from 'passport-google-oauth20';
 import {Strategy as TwitterStrategy} from 'passport-twitter';
 import {Strategy as FacebookStrategy} from 'passport-facebook';
 import {Strategy as GitHubStrategy} from 'passport-github2';
-import {hashPassword, verifyPassword} from './libs/bcrypt.js';
 import {Strategy as LocalStrategy} from 'passport-local';
 import {findUserOne} from './controllers/authController.js';
 import {verifyToken} from './middlewares/authMiddleware.js';

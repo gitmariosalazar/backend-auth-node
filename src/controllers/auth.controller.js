@@ -3,8 +3,9 @@ import User from "../models/user.model.js"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import {TOKEN_SECRET} from "../config.js";
-import {createAccessToken} from "../libs/jwt.js"
+import {createAccessToken, createToken, isBlacklisted} from "../libs/jwt.js"
 import {configDotenv} from "dotenv";
+import {findUserOne} from "./authController.js";
 configDotenv()
 
 
@@ -24,41 +25,15 @@ export const register = async (req, res) => {
             username, email, password: password_hash
         })
         const user = await newUser.save()
-        const user_token = {
-            id: user._id, username: user.username, email: user.email, createdAt: user.createdAt
-        }
-        const token = await createAccessToken(user_token)
-        if (process.env.NODE_ENV_TEST === "development") {
-            res.cookie("token", token, {
-                // can only be accessed by server requests
-                httpOnly: true,
-                // path = where the cookie is valid
-                path: "/",
-                // domain = what domain the cookie is valid on
-                domain: "localhost",
-                // secure = only send cookie over https
-                secure: false,
-                // sameSite = only send cookie if the request is coming from the same origin
-                sameSite: "lax", // "strict" | "lax" | "none" (secure must be true)
-                // maxAge = how long the cookie is valid for in milliseconds
-                maxAge: 3600000, // 1 hour
-            });
-        }
-        if (process.env.NODE_ENV_TEST === "production") {
-            res.cookie("token", token, {
-                // can only be accessed by server requests
-                httpOnly: true,
-                // path = where the cookie is valid
-                path: "/",
-                // secure = only send cookie over https
-                secure: true,
-                // sameSite = only send cookie if the request is coming from the same origin
-                sameSite: "none", // "strict" | "lax" | "none" (secure must be true)
-                // maxAge = how long the cookie is valid for in milliseconds
-                maxAge: 3600000, // 1 hour
-            });
-        }
-        return res.json({error: null, user: user_token, message: 'Create user successfully!'})
+
+        const token = await createToken(user_token)
+        res.cookie('jwt', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None',
+            maxAge: 3600000
+        });
+        return res.json({error: null, user: token, message: 'Create user successfully!'})
     } catch (error) {
         res.status(500).json({error: error, message: 'Failed on create User!', user: null})
     }
@@ -111,7 +86,8 @@ export const login = async (req, res) => {
 
 export const verifyToken = async (req, res) => {
 
-    const {token} = req.cookies;
+    const token = req.cookies.jwt;
+    console.log(token);
     if (!token) return res.send(false);
 
     jwt.verify(token, TOKEN_SECRET, async (error, user) => {
@@ -127,7 +103,6 @@ export const verifyToken = async (req, res) => {
         });
     });
 };
-
 
 export const profile = async (req, res) => {
     const user = await User.findById(req.user.id)

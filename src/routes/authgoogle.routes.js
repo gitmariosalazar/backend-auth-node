@@ -4,9 +4,8 @@ import passport from 'passport';
 import {findOrCreateUser, findUserOne, register} from '../controllers/authController.js';
 import {configDotenv} from 'dotenv';
 import {hashPassword} from '../libs/bcrypt.js';
-import {URL_FRONTEND} from '../config.js';
 import {createToken} from '../libs/jwt.js';
-import {logout, logoutUser} from '../middlewares/authMiddleware.js';
+import {logoutUser} from '../middlewares/authMiddleware.js';
 
 
 configDotenv()
@@ -55,6 +54,7 @@ router.get('/github',
 router.get('/github/callback',
     passport.authenticate('github', {failureRedirect: '/init'}),
     async (req, res) => {
+        const referer = req.get('referer');
         let user = await findOrCreateUser(req.user)
         const token = createToken(user)
         res.cookie('jwt', token, {
@@ -63,9 +63,9 @@ router.get('/github/callback',
             sameSite: 'None',
             maxAge: 3600000
         });
-        res.redirect(URL_FRONTEND);
+        res.redirect(referer);
     });
-
+/*
 router.post('/register', async (req, res) => {
     const {email, password, name} = req.body;
     try {
@@ -77,13 +77,14 @@ router.post('/register', async (req, res) => {
         res.status(500).json({message: 'Error registering user', error});
     }
 });
+*/
 
-
-router.get('/logout', logoutUser);
+router.post('/logout', logoutUser);
 
 router.get('/google/callback',
     passport.authenticate('google', {failureRedirect: '/'}),
     async (req, res) => {
+        const referer = req.get('referer');
         req.user.password = hashPassword('password-mario')
         let user = await findOrCreateUser(req.user)
         const token = createToken(user)
@@ -93,13 +94,14 @@ router.get('/google/callback',
             sameSite: 'None',
             maxAge: 3600000
         });
-        res.redirect(URL_FRONTEND);
+        res.redirect(referer);
     }
 );
 
 router.get('/twitter/callback',
     passport.authenticate('twitter', {failureRedirect: '/login'}),
     async (req, res) => {
+        const referer = req.get('referer');
         let user = await findOrCreateUser(req.user)
         const token = createToken(user)
         res.cookie('jwt', token, {
@@ -108,13 +110,14 @@ router.get('/twitter/callback',
             sameSite: 'None',
             maxAge: 3600000
         });
-        res.redirect(URL_FRONTEND);
+        res.redirect(referer);
     });
 
 
 router.get('/facebook/callback',
     passport.authenticate('facebook', {failureRedirect: '/'}),
     async (req, res) => {
+        const referer = req.get('referer');
         let user = await findOrCreateUser(req.user)
         const token = createToken(user)
         res.cookie('jwt', token, {
@@ -123,7 +126,7 @@ router.get('/facebook/callback',
             sameSite: 'None',
             maxAge: 3600000
         });
-        res.redirect(URL_FRONTEND);
+        res.redirect(referer);
     });
 
 router.get('/init', (req, res) => {
