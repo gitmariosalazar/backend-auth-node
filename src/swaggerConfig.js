@@ -658,7 +658,6 @@ const swaggerOptions = {
             }
         ]
     },
-    // Apunta al archivo donde deseas que se genere la documentación Swagger JSON
     apis: ['./routes/auth.routes.js', './routes/tasks.routes.js'],
 };
 
