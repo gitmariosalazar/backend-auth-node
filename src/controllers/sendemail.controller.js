@@ -5,7 +5,7 @@ export const emailHelper = async (name,to,from, subject, message) => {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: from,
+      user: to,
       pass: "dcmq pxel brby lyys",
     },
   });
@@ -31,8 +31,7 @@ export const sendEmail = async (req, res) => {
   const {name, to, from, subject, message } = req.body;
   try {
     const response = await emailHelper(name, to, from, subject, message);
-    console.log(response)
-   res.status(200).json({error: null, message: "Sen message successfully!"})
+   res.status(200).json({error: null, message: "Send message successfully!"})
   } catch (error) {
     return res
       .status(500)
