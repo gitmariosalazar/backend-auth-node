@@ -18,8 +18,12 @@ import {Strategy as LocalStrategy} from 'passport-local';
 import {findUserOne} from './controllers/authController.js';
 import {verifyToken} from './middlewares/authMiddleware.js';
 import bcrypt from 'bcrypt'
+import swaggerJSDoc from 'swagger-jsdoc';
+import { SwaggerUIBundle, SwaggerUIStandalonePreset } from 'swagger-ui-dist';
+import router_email from './routes/sendemail.routes.js';
 
 const app = express();
+
 // Middleware setup
 app.use(morgan('dev'));
 app.use(express.json());
@@ -144,6 +148,7 @@ app.set('views', path.join(process.cwd(), 'views'));
 
 app.use('/api/auth', authRoutes);
 app.use('/api', Tasks);
+app.use("/api", router_email);
 app.use('/auth', authgoogle);
 
 app.get('/', async (req, res) => {
