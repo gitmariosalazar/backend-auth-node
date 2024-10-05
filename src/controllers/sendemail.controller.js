@@ -3,17 +3,24 @@ import nodemailer from 'nodemailer'
 
 export const emailHelper = async (name,to,from, subject, message) => {
   let transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, // true for port 465, false for other ports
     auth: {
       user: to,
       pass: "dcmq pxel brby lyys",
     },
+    tls: {
+      minVersion: "TLSv1.2", // Asegúrate de usar al menos TLS 1.2
+      rejectUnauthorized: true, // Desactiva la validación de certificados para pruebas
+    },
   });
 
   let mailOptions = {
-    from: `${name} ${from}`,
+    from: `"${name} 👻" <${from}>`,
     to: to,
-    subject: subject,
+    replyTo: from,
+    subject: `${subject} ✔`,
     text: message,
   };
 
@@ -28,7 +35,8 @@ export const emailHelper = async (name,to,from, subject, message) => {
 };
 
 export const sendEmail = async (req, res) => {
-  const {name, to, from, subject, message } = req.body;
+  const { name, to, from, subject, message } = req.body;
+  console.log(from)
   try {
     const response = await emailHelper(name, to, from, subject, message);
    res.status(200).json({error: null, message: "Send message successfully!"})
